@@ -3,7 +3,7 @@ import uvicorn
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from database import init_table, use_db, session, cu
-from models import ProductOutput
+from models import ProductOutput, ProductInput
 app = FastAPI()
 
 app.add_middleware(
@@ -36,6 +36,13 @@ async def get_all_products(db: sqlite3.Connection = Depends(use_db)):
     }
 
     return products
+
+@app.post("/products")
+async def add_product(product: ProductInput, db: sqlite3.Connection = Depends(use_db)):
+    cu.execute("INSERT INTO Products VALUES(NULL,?,?,?,?)", [product.name, product.description, product.price, product.quantity])
+    session.commit()
+
+    return product
 
 if __name__=="__main__":
     init_table()
