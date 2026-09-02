@@ -60,6 +60,24 @@ async def get_product_by_id(product_id: int, db: sqlite3.Connection = Depends(us
 
     return {"error": "Product not found"}
 
+@app.put('/products/{product_id}')
+async def update_product(product_id: int, product: ProductInput,db: sqlite3.Connection = Depends(use_db)):
+    try:
+        sql = f"""
+            UPDATE Products 
+                SET name=?, 
+                    description=?,
+                    price=?,
+                    quantity=?
+                WHERE id == {product_id}
+        """
+        cu.execute(sql, [product.name, product.description, product.price, product.quantity])
+        session.commit()
+        return product
+    except:
+        return {"error": "Product not found"}
+        
+
 if __name__=="__main__":
     init_table()
     uvicorn.run('main:app', reload=True)
