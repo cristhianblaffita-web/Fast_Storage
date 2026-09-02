@@ -1,6 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from database import init_table
 
 app = FastAPI()
 
@@ -17,4 +18,5 @@ def health():
 
 
 if __name__=="__main__":
+    init_table()
     uvicorn.run('main:app', reload=True)
