@@ -44,6 +44,22 @@ async def add_product(product: ProductInput, db: sqlite3.Connection = Depends(us
 
     return product
 
+@app.get("/products/{product_id}")
+async def get_product_by_id(product_id: int, db: sqlite3.Connection = Depends(use_db)):
+    cu.execute(f"SELECT * FROM Products WHERE id == {product_id}")
+    product = cu.fetchone()
+
+    if (product):
+        return {"data": ProductOutput(
+            id=product[0],
+            name=product[1],
+            description=product[2],
+            price=product[3],
+            quantity=product[4]
+        )}
+
+    return {"error": "Product not found"}
+
 if __name__=="__main__":
     init_table()
     uvicorn.run('main:app', reload=True)
