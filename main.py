@@ -1,3 +1,4 @@
+import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -13,3 +14,7 @@ app.add_middleware(
 @app.get("/")
 def health():
     return {"health_status": "OK"}
+
+
+if __name__=="__main__":
+    uvicorn.run('main:app', reload=True)
