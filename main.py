@@ -61,7 +61,7 @@ async def get_product_by_id(product_id: int, db: sqlite3.Connection = Depends(us
     return {"error": "Product not found"}
 
 @app.put('/products/{product_id}')
-async def update_product(product_id: int, product: ProductInput,db: sqlite3.Connection = Depends(use_db)):
+async def update_product(product_id: int, product: ProductInput, db: sqlite3.Connection = Depends(use_db)):
     try:
         sql = f"""
             UPDATE Products 
@@ -76,7 +76,16 @@ async def update_product(product_id: int, product: ProductInput,db: sqlite3.Conn
         return product
     except:
         return {"error": "Product not found"}
-        
+
+@app.delete("/products/{product_id}")
+async def delete_product(product_id: int, db: sqlite3.Connection = Depends(use_db)):
+    try:
+        cu.execute(f"DELETE FROM Products WHERE id == {product_id}")
+        session.commit()
+        return {"success": "Product deleted"}
+    except:
+        return {"error": "Product not found"}
+      
 
 if __name__=="__main__":
     init_table()
