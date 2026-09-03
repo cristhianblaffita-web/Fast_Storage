@@ -2,7 +2,7 @@ import sqlite3
 import uvicorn
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from database import init_table, use_db, session, cu
+from database import init_table, use_db, session, cu, reset_table
 from models import ProductOutput, ProductInput
 app = FastAPI()
 
@@ -77,6 +77,16 @@ async def update_product(product_id: int, product: ProductInput, db: sqlite3.Con
     except:
         return {"error": "Product not found"}
 
+@app.delete("/products")
+async def delete_all_products(db: sqlite3.Connection = Depends(use_db)):
+    try:
+        cu.execute("DELETE FROM Products")
+        session.commit()
+        reset_table()
+        return {"success": "All products were deleted"}
+    except:
+        return {"error": "Something went wrong deleting all products"}
+
 @app.delete("/products/{product_id}")
 async def delete_product(product_id: int, db: sqlite3.Connection = Depends(use_db)):
     try:
@@ -85,7 +95,6 @@ async def delete_product(product_id: int, db: sqlite3.Connection = Depends(use_d
         return {"success": "Product deleted"}
     except:
         return {"error": "Product not found"}
-      
 
 if __name__=="__main__":
     init_table()
