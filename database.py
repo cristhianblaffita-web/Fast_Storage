@@ -10,19 +10,14 @@ def use_db():
 def is_table_created():
     db_info = cu.execute("SELECT tbl_name FROM sqlite_master").fetchall()
 
-    try:
-        db_info = db_info[0]
-    except:
-        return False
-
     for idx in range(len(db_info)):
-        if (str(db_info[idx] == 'products')):
+        if (str(db_info[idx][0]) == 'Products'):
             return True
 
     return False
 
 def init_table():
-    if (is_table_created() is True): return None
+    if (is_table_created()): return None
 
     table_columns = ProductDB().columns
 
