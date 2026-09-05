@@ -4,7 +4,8 @@
   /* Colors */
   --color-main: #6a5acd;
   --color-surface: #fff;
-  --color: #fb2c36;
+  --color-background: whitesmoke;
+  --color-warning: #fb2c36;
   --color-primary: #009966;
   --color-secondary: #0092b8;
 }
@@ -16,6 +17,8 @@
   min-height: 100svh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   box-sizing: border-box;
   background-color: var(--color-main);
 }
