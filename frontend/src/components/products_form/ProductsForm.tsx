@@ -1,19 +1,18 @@
-import { ProductsFormReducerActionKinds, useProductsForm } from "../../hooks/useProductsForm";
-import type { AddProductType } from "../../types/types";
+import { ProductsFormReducerActionKinds } from "../../types/types";
+import type { ProductsFormProps } from "../../types/props";
 
-export default function ProductForm({
+export default function ProductsForm({
     addProductFunc,
-}: {
-    addProductFunc: AddProductType;
-}) {
-    const { formProduct, dispatch } = useProductsForm();
+    product,
+    dispatch
+}: ProductsFormProps) {
 
     const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
-        await addProductFunc(formProduct);
+        await addProductFunc(product);
         dispatch({type: ProductsFormReducerActionKinds.CLEAR_ALL, payload: null});
     }
-
+    
     return (
         <div className="w-full min-w-200 relative grid grid-cols-1 gap-3 bg-surface p-4 rounded-2xl shadow-2xl">
             <h2 className="text-lg font-bold text-start">Products Form</h2>
@@ -24,7 +23,7 @@ export default function ProductForm({
             >
                 <input
                     className="bg-gray-300 w-36 p-2 rounded-md outline-primary"
-                    value={formProduct.name}
+                    value={product.name}
                     onChange={(e) =>
                         dispatch({
                             type: ProductsFormReducerActionKinds.NAME,
@@ -40,7 +39,7 @@ export default function ProductForm({
                 />
                 <input
                     className="bg-gray-300 w-36 p-2 rounded-md outline-main"
-                    value={formProduct.description}
+                    value={product.description}
                     onChange={(e) =>
                         dispatch({
                             type: ProductsFormReducerActionKinds.DESCRIPTION,
@@ -54,7 +53,7 @@ export default function ProductForm({
                 />
                 <input
                     className="bg-gray-300 w-36 p-2 rounded-md outline-main"
-                    value={formProduct.price}
+                    value={product.price}
                     onChange={(e) =>
                         dispatch({
                             type: ProductsFormReducerActionKinds.PRICE,
@@ -70,7 +69,7 @@ export default function ProductForm({
                 />
                 <input
                     className="bg-gray-300 w-36 p-2 rounded-md outline-main"
-                    value={formProduct.quantity}
+                    value={product.quantity}
                     onChange={(e) =>
                         dispatch({
                             type: ProductsFormReducerActionKinds.QUANTITY,

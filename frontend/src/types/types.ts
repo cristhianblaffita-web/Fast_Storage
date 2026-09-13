@@ -3,7 +3,6 @@ import type { ProductInput } from "./products";
 
 export type AddProductType = (product: ProductInput) => Promise<void>
 
-
 export interface ProductContextType {
     isLoading: boolean;
     error: unknown | null;
@@ -14,3 +13,25 @@ export interface ProductContextType {
     handleAddProduct: AddProductType
 }
 
+export type ProductsFormDispatchType = React.ActionDispatch<[action: ProductsFormReducerActionType]>;
+
+export interface ProductsFormContextType {
+    formProduct: ProductInput;
+    dispatch: ProductsFormDispatchType;
+    editProduct: (product: ProductInput) => void;
+    clearForm: () => void;
+}
+
+export enum ProductsFormReducerActionKinds {
+    NAME = 'name',
+    DESCRIPTION = 'description',
+    PRICE = 'price',
+    QUANTITY = 'quantity',
+    ALL = 'all',
+    CLEAR_ALL = 'clear_all'
+}
+
+export interface ProductsFormReducerActionType {
+    type: ProductsFormReducerActionKinds;
+    payload: any
+}
