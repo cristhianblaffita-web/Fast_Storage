@@ -1,11 +1,14 @@
 import { createContext } from "react";
 import { useGetProducts } from "../hooks/useGetProducts";
-import type { ApiProductsResponse } from "../types/api";
+import { useDeleteProduct } from "../hooks/useDeleteProduct";
+import { useAddProduct } from "../hooks/useAddProduct";
 import type { ProductContextType } from "../types/types";
+import type { ProductInput } from "../types/products";
+
 
 export const ProductContext = createContext<ProductContextType | null>(null);
 
-export function ProductProvider({ children }:{ children: React.ReactNode}) {
+export function ProductProvider({ children }: { children: React.ReactNode }) {
     const {
         isLoading,
         error,
@@ -13,9 +16,17 @@ export function ProductProvider({ children }:{ children: React.ReactNode}) {
         getProducts
     } = useGetProducts()
 
-    const productsResponse: ApiProductsResponse = {
-        data: response?.data || [],
-        column_names: response?.column_names || []
+    const { deleteProduct } = useDeleteProduct();
+    const { addProduct } = useAddProduct();
+
+    async function handleAddProduct(product: ProductInput) {
+        await addProduct(product);
+        await getProducts();
+    }
+
+    async function handleDeleteProduct(productId: number) {
+        await deleteProduct(productId);
+        await getProducts();
     };
 
     const totalProducts = response?.data?.length || 0;
@@ -25,9 +36,11 @@ export function ProductProvider({ children }:{ children: React.ReactNode}) {
             value={{
                 isLoading,
                 error,
-                productsResponse,
+                productsResponse: response,
                 totalProducts,
-                getProducts
+                getProducts,
+                handleDeleteProduct,
+                handleAddProduct
             }}
         >
             {children}
