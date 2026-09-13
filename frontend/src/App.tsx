@@ -1,4 +1,5 @@
 import { useProductContext } from "./hooks/useProductContext";
+import { useProductsFormContext } from "./hooks/useProductsFormContext";
 import ProductsListStateManager from "./components/products_list/ProductsListStateManager";
 import ProductsList from "./components/products_list/ProductsList";
 import ProductForm from "./components/products_form/ProductsForm";
@@ -10,8 +11,14 @@ function App() {
     isLoading,
     error,
     handleDeleteProduct,
-    handleAddProduct
+    handleAddProduct,
   } = useProductContext();
+
+  const {
+    formProduct,
+    dispatch: productsFormDispatch,
+    editProduct,
+  } = useProductsFormContext();
 
   const loadingCompo = (
     <div className="notification bg-secondary text-white text-sm p-4 rounded-lg shadow-2xl w-[80vw]">
@@ -22,7 +29,11 @@ function App() {
 
   return (
     <main className="grid grid-cols-[1fr] gap-8 text-sm">
-      <ProductForm addProductFunc={handleAddProduct} />
+      <ProductForm
+        product={formProduct}
+        dispatch={productsFormDispatch}
+        addProductFunc={handleAddProduct}
+      />
       <ProductsListStateManager
         processLoading={isLoading}
         loadingComponent={loadingCompo}
@@ -33,6 +44,7 @@ function App() {
           productsResponse={productsResponse}
           totalProducts={totalProducts}
           handleDeleteProduct={handleDeleteProduct}
+          handleEditProduct={editProduct}
         />
       </ProductsListStateManager>
     </main>

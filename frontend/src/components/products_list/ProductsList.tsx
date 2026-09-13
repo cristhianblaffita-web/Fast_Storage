@@ -1,14 +1,11 @@
-import type { ApiProductsResponse } from "../../types/api"
+import type { ProductsListProps } from "../../types/props";
 
 export default function ProductsList({
   productsResponse,
   totalProducts,
-  handleDeleteProduct
-}: {
-  productsResponse: ApiProductsResponse | null,
-  totalProducts: number,
-  handleDeleteProduct: (productId: number) => Promise<void>
-}) {
+  handleDeleteProduct,
+  handleEditProduct
+}: ProductsListProps) {
 
   return (
     <div className="w-full min-w-200 relative grid grid-cols-1 gap-3 bg-surface p-4 rounded-2xl shadow-2xl">
@@ -19,7 +16,7 @@ export default function ProductsList({
       </div>
 
       <h2 className="text-lg font-bold text-start pt-4">Products List</h2>
-      
+
       <table className="w-full grid grid-cols-1 gap-2 ">
         <thead className="w-full font-bold ">
           <tr className="grid grid-cols-[50px_repeat(5,1fr)] gap-2">
@@ -43,11 +40,17 @@ export default function ProductsList({
               <td className="p-2 text-nowrap text-ellipsis line-clamp-1 hover:text-clip hover:overflow-auto" key={idx * 10 + 6}>
                 <div className="flex flex-row justify-center gap-2">
                   <button
+                    className="bg-secondary text-surface p-1 rounded-md cursor-pointer active:scale-90 transition-transform"
+                    onClick={() => handleEditProduct(prod)}
+                  >Edit</button>
+
+                  <button
                     className="bg-warning text-surface p-1 rounded-md cursor-pointer active:scale-90 transition-transform"
                     onClick={() => handleDeleteProduct(prod.id)}
                   >
                     Delete
                   </button>
+
                 </div>
               </td>
             </tr>
