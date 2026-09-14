@@ -1,3 +1,4 @@
+import { EditIcon, TrashIcon } from "lucide-react";
 import type { ProductsListProps } from "../../types/props";
 
 export default function ProductsList({
@@ -6,6 +7,7 @@ export default function ProductsList({
   handleDeleteProduct,
   handleEditProduct
 }: ProductsListProps) {
+
 
   return (
     <div className="w-full min-w-200 relative grid grid-cols-1 gap-3 bg-surface p-4 rounded-2xl shadow-2xl">
@@ -42,13 +44,17 @@ export default function ProductsList({
                   <button
                     className="bg-secondary text-surface p-1 rounded-md cursor-pointer active:scale-90 transition-transform"
                     onClick={() => handleEditProduct(prod)}
-                  >Edit</button>
+                    title="Edit product"
+                  >
+                    <EditIcon/>
+                  </button>
 
                   <button
                     className="bg-warning text-surface p-1 rounded-md cursor-pointer active:scale-90 transition-transform"
                     onClick={() => handleDeleteProduct(prod.id)}
+                    title="Delete product"
                   >
-                    Delete
+                    <TrashIcon/>
                   </button>
 
                 </div>
