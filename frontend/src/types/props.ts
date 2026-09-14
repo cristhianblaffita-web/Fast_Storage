@@ -4,6 +4,7 @@ import type { AddProductType, ProductsFormDispatchType, ProductsFormReducerActio
 
 export interface ProductsFormProps {
     addProductFunc: AddProductType,
+    clearFormFunc: () => void,
     product: ProductInput,
     dispatch: React.ActionDispatch<[action: ProductsFormReducerActionType]>
 }

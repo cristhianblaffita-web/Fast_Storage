@@ -18,6 +18,7 @@ function App() {
     formProduct,
     dispatch: productsFormDispatch,
     editProduct,
+    clearForm
   } = useProductsFormContext();
 
   const loadingCompo = (
@@ -33,6 +34,7 @@ function App() {
         product={formProduct}
         dispatch={productsFormDispatch}
         addProductFunc={handleAddProduct}
+        clearFormFunc={clearForm}
       />
       <ProductsListStateManager
         processLoading={isLoading}

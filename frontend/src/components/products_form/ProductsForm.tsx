@@ -3,6 +3,7 @@ import type { ProductsFormProps } from "../../types/props";
 
 export default function ProductsForm({
     addProductFunc,
+    clearFormFunc,
     product,
     dispatch
 }: ProductsFormProps) {
@@ -12,7 +13,7 @@ export default function ProductsForm({
         await addProductFunc(product);
         dispatch({type: ProductsFormReducerActionKinds.CLEAR_ALL, payload: null});
     }
-    
+
     return (
         <div className="w-full min-w-200 relative grid grid-cols-1 gap-3 bg-surface p-4 rounded-2xl shadow-2xl">
             <h2 className="text-lg font-bold text-start">Products Form</h2>
@@ -87,6 +88,12 @@ export default function ProductsForm({
                     className="bg-primary w-24 text-surface p-2 rounded-md cursor-pointer active:scale-90 transition-transform"
                     type="submit"
                     value="Add product"
+                />
+                <input 
+                    className="bg-secondary w-24 text-surface p-2 rounded-md cursor-pointer active:scale-90 transition-transform"
+                    type="button"
+                    value="Clear"
+                    onClick={clearFormFunc}
                 />
             </form>
         </div>
